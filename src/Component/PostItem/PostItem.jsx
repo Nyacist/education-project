@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './PostItem.module.scss'
-import Button from "../UI/Button/Button";
+import MyButton from "../UI/Button/MyButton";
 
 const PostItem = ({post, remove}) => {
     const removePost = (e) => {
@@ -13,12 +13,12 @@ const PostItem = ({post, remove}) => {
                 <h3>{post.title}</h3>
                 <p>{post.body}</p>
             </div>
-            <Button
+            <MyButton
                 version='border'
                 onClick={e => removePost(e)}
             >
                 Удалить
-            </Button>
+            </MyButton>
         </div>
     );
 };

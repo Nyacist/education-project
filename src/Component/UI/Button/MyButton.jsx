@@ -1,12 +1,12 @@
-import style from './Button.module.scss'
+import style from './MyButton.module.scss'
 
 import React from 'react';
 
-const Button = ({children, version, onClick}) => {
+const MyButton = ({children, version, onClick}) => {
     let btnStyle = style.btn
     if (version === 'color')
         btnStyle = btnStyle + ' ' + style.btnColor
-    if (version === 'border')
+    if (version === 'border' || version === undefined)
         btnStyle = btnStyle + ' ' + style.btnBorder
     return (
         <button
@@ -18,4 +18,4 @@ const Button = ({children, version, onClick}) => {
     );
 };
 
-export default Button;
+export default MyButton;

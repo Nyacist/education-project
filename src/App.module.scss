@@ -1,0 +1,25 @@
+.title {
+    text-align: center;
+}
+
+.postList {
+    margin: 0 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+        margin-bottom: 10px;
+    }
+
+    .selectSort {
+        display: flex;
+        justify-content: right;
+    }
+
+    .search {
+        display: grid;
+        grid-template-columns: 7fr 1fr;
+    }
+}
+

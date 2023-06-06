@@ -2,7 +2,7 @@ import style from './PostForm.module.scss'
 
 import React, {useState} from 'react';
 import MainInput from "../UI/MainInput/MainInput";
-import Button from "../UI/Button/Button";
+import MyButton from "../UI/Button/MyButton";
 
 const PostForm = ({create}) => {
     let [post, setPost] = useState({title: '', body: ''})
@@ -30,12 +30,12 @@ const PostForm = ({create}) => {
                 value={post.body}
                 onChange={(e) => setPost({...post, body: e.target.value})}
             />
-            <Button
+            <MyButton
                 version='color'
                 onClick={addNewPost}
             >
                 Создать пост
-            </Button>
+            </MyButton>
         </div>
     );
 };
