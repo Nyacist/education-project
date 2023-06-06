@@ -2,11 +2,10 @@ import style from './MainInput.module.scss'
 
 import React from 'react';
 
-const MainInput = ({placeholder}) => {
+const MainInput = (props) => {
     return (
         <input
-            type="text"
-            placeholder={placeholder}
+            {...props}
             className={style.textInput}
         />
     );
