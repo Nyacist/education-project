@@ -1,12 +1,11 @@
 import style from './App.module.scss';
 
-import {useState} from "react";
+import {useMemo, useState} from "react";
 
 import PostList from "./Component/PostList/PostList";
 import PostForm from "./Component/PostForm/PostForm";
 import MySelect from "./Component/UI/Select/MySelect";
 import MainInput from "./Component/UI/MainInput/MainInput";
-import MyButton from "./Component/UI/Button/MyButton";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -16,6 +15,18 @@ function App() {
     ])
 
     const [selectedSort, setSelectedSort] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const sortedPosts = useMemo(() => {
+        if (selectedSort) {
+            return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+        }
+        return posts
+    }, [selectedSort, posts])
+
+    const sortedAndSearchPosts = useMemo(() => {
+        return sortedPosts.filter(post => post.title.toLowerCase().includes(searchQuery.toLowerCase()))
+    }, [searchQuery, sortedPosts])
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -27,40 +38,38 @@ function App() {
 
     const sortPost = (sort) => {
         setSelectedSort(sort)
-        setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
     }
 
     return (
         <div className="App">
             <h1 className={style.title}>Создать пост</h1>
-            <PostForm create={createPost} />
-            {posts.length !== 0 ?
-                <div className={style.postList}>
-                    <h1 className={style.title}>Список постов</h1>
-                    <div className={style.search}>
-                        <MainInput
-                            placeholder='Поиск'
-                        />
-                        <MyButton
-                            version='color'
-                        >Поиск</MyButton>
-                    </div>
-
-                    <div className={style.selectSort}>
-                        <MySelect
-                            value={selectedSort}
-                            onChange={sortPost}
-                            defaultValue='Сортировать'
-                            options={[
-                                {name: 'По названию', value: 'title'},
-                                {name: 'По описанию', value: 'body'},
-                            ]}
-                        />
-                    </div>
-                    <PostList posts={posts} remove={removePost}/>
+            <PostForm create={createPost}/>
+            <div className={style.postList}>
+                <h1 className={style.title}>Список постов</h1>
+                <div className={style.search}>
+                    <MainInput
+                        type='text'
+                        placeholder='Поиск'
+                        onChange={e => setSearchQuery(e.target.value)}
+                    />
                 </div>
-                : <h1 className={style.title}>Посты не найдены</h1>
-            }
+
+                <div className={style.selectSort}>
+                    <MySelect
+                        value={selectedSort}
+                        onChange={sortPost}
+                        defaultValue='Сортировать'
+                        options={[
+                            {name: 'По названию', value: 'title'},
+                            {name: 'По описанию', value: 'body'},
+                        ]}
+                    />
+                </div>
+                {sortedAndSearchPosts.length !== 0 ?
+                    <PostList posts={sortedAndSearchPosts} remove={removePost}/>
+                    : <h2 className={style.title}>Посты не найдены</h2>
+                }
+            </div>
         </div>
     );
 };

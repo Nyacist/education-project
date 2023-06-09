@@ -18,8 +18,9 @@
     }
 
     .search {
-        display: grid;
-        grid-template-columns: 7fr 1fr;
+        input {
+            width: 100%;
+        }
     }
 }
 
