@@ -1,11 +1,12 @@
 import style from './App.module.scss';
 
-import {useMemo, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 
 import PostList from "./Component/PostList/PostList";
 import PostForm from "./Component/PostForm/PostForm";
 import MySelect from "./Component/UI/Select/MySelect";
 import MainInput from "./Component/UI/MainInput/MainInput";
+import MyButton from "./Component/UI/Button/MyButton";
 
 function App() {
     const [posts, setPosts] = useState([
@@ -16,6 +17,7 @@ function App() {
 
     const [selectedSort, setSelectedSort] = useState('')
     const [searchQuery, setSearchQuery] = useState('')
+    const searchInput = useRef('')
 
     const sortedPosts = useMemo(() => {
         if (selectedSort) {
@@ -50,8 +52,12 @@ function App() {
                     <MainInput
                         type='text'
                         placeholder='Поиск'
-                        onChange={e => setSearchQuery(e.target.value)}
+                        ref={searchInput}
                     />
+                    <MyButton
+                        version='color'
+                        onClick={() => setSearchQuery(searchInput.current.value)}
+                    >Поиск</MyButton>
                 </div>
 
                 <div className={style.selectSort}>
